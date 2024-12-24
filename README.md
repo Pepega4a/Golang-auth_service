@@ -44,24 +44,40 @@ docker run -p 8080:8080 --env-file .env auth_service
 
 Сервис доступен по адресу `http://localhost:8080` для управления токенами.
 
-(POST} http://localhost:8080/auth/tokens
+(POST}:
+`http://localhost:8080/auth/tokens`
+
+
 Params:
+
+```
    Key: user_id
    Value: string_value
-Вернёт JSON
-   {
-   "access_token": "access_token_value",
-    "refresh_token": "refresh_token_value"
-   }
+```
 
-(POST) http://localhost:8080/auth/refresh
-Body (raw JSON): 
-   {
-   "access_token": "your_access_token_value",
-    "refresh_token": "your_refresh_token_value"
-   }
 Вернёт JSON
+```json
    {
-   "access_token": "new_access_token_value",
-    "refresh_token": "new_refresh_token_value"
+      "access_token": "access_token_value",
+       "refresh_token": "refresh_token_value"
    }
+```
+(POST):
+`http://localhost:8080/auth/refresh`
+
+
+Body (raw JSON): 
+```json
+   {
+      "access_token": "your_access_token_value",
+      "refresh_token": "your_refresh_token_value"
+   }
+```
+
+Вернёт JSON
+```json
+   {
+      "access_token": "new_access_token_value",
+      "refresh_token": "new_refresh_token_value"
+   }
+```
