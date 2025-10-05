@@ -1,83 +1,123 @@
-# Auth Service
+# Golang Authentication Service
 
-## Описание
+Microservice for user authentication and authorization built with Go.
 
-Auth Service — микросервис для управления аутентификацией пользователей с использованием токенов и PostgreSQL для хранения токенов обновления.
+## Features
 
-## Установка
+- User registration and login
+- JWT-based authentication
+- Token refresh mechanism
+- Password hashing with bcrypt
+- Protected routes middleware
+- Input validation
 
-1. Клонируйте репозиторий:
+## Tech Stack
 
-   ```bash
-   git clone https://github.com/yourusername/auth_service.git
-   cd auth_service
-   ```
+- **Go** - Programming language
+- **PostgreSQL** - Database (or specify your DB)
+- **JWT** - JSON Web Tokens for authentication
+- **bcrypt** - Password hashing
 
-2. Создайте файл `.env` на основе `.example.env` и заполните его данными:
-
-   ```bash
-   cp .example.env .env
-   ```
-
-3. Установите зависимости:
-
-   ```bash
-   go mod download
-   ```
-
-## Запуск
-
-### Локально
+## Installation
 
 ```bash
+# Clone repository
+git clone https://github.com/Pepega4a/Golang-auth_service.git
+cd Golang-auth_service
+
+# Install dependencies
+go mod download
+
+# Set up environment variables
+cp .env.example .env
+# Edit .env with your database credentials
+
+# Run the service
 go run main.go
 ```
 
-### С помощью Docker
+## Environment Variables
 
-```bash
-docker build -t auth_service .
-docker run -p 8080:8080 --env-file .env auth_service
+```env
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=your_password
+DB_NAME=auth_service
+JWT_SECRET=your_secret_key
+PORT=8080
 ```
 
-## Использование
+## API Endpoints
 
-Сервис доступен по адресу `http://localhost:8080` для управления токенами.
+### Authentication
 
-(POST}:
-`http://localhost:8080/auth/tokens`
+**Register User**
+```http
+POST /api/auth/register
+Content-Type: application/json
 
-
-Params:
-
-```
-   Key: user_id
-   Value: string_value
-```
-
-Вернёт JSON
-```json
-   {
-      "access_token": "access_token_value",
-       "refresh_token": "refresh_token_value"
-   }
-```
-(POST):
-`http://localhost:8080/auth/refresh`
-
-
-Body (raw JSON): 
-```json
-   {
-      "access_token": "your_access_token_value",
-      "refresh_token": "your_refresh_token_value"
-   }
+{
+  "email": "user@example.com",
+  "password": "password123",
+  "name": "John Doe"
+}
 ```
 
-Вернёт JSON
-```json
-   {
-      "access_token": "new_access_token_value",
-      "refresh_token": "new_refresh_token_value"
-   }
+**Login**
+```http
+POST /api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
 ```
+
+**Refresh Token**
+```http
+POST /api/auth/refresh
+Authorization: Bearer {refresh_token}
+```
+
+### Protected Routes
+
+**Get User Profile**
+```http
+GET /api/user/profile
+Authorization: Bearer {access_token}
+```
+
+## Project Structure
+
+```
+.
+├── cmd/
+│   └── main.go
+├── internal/
+│   ├── handlers/
+│   ├── middleware/
+│   ├── models/
+│   └── repository/
+├── pkg/
+│   └── utils/
+├── go.mod
+├── go.sum
+└── README.md
+```
+
+## Security
+
+- Passwords are hashed using bcrypt
+- JWT tokens with expiration
+- Environment variables for sensitive data
+- Input validation and sanitization
+
+## License
+
+MIT
+
+## Author
+
+Vsevolod - [GitHub](https://github.com/Pepega4a)
